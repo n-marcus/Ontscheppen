@@ -50,7 +50,7 @@ class Solenoid {
     }
 };
 
-//create an array of solenoid classes
+//create an array of solenoid objects
 Solenoid *solenoids[NUM_SOLENOIDS];
 
 //name the pins that MOSFETs are connected to here
