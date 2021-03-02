@@ -42,6 +42,15 @@ void getOSC() {
       Serial.print("Test data:");
       Serial.println(incoming[defSize - 1]);
     }
+
+    if (matchPattern(incoming, "/solenoid")) {
+      Serial.println("We got a solenoid trigger message");
+      int solNum = incoming[defSize - 1];
+      if (solNum < NUM_SOLENOIDS && solNum >=  0) {
+        //TODO find a way to parse multiple arguments in OSC message to also have velocity
+        solenoids[solNum]->trigger(50);
+      }
+    }
   }
 }
 
