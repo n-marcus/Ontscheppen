@@ -1,3 +1,10 @@
+#include <SPI.h>
+#include <Ethernet.h>
+#include <EthernetUdp.h>
+#include <OSCMessage.h>
+#include <OSCBundle.h>
+#include <OSCBoards.h>
+
 #define NUM_SOLENOIDS 16
 
 //Solenoid class
@@ -63,6 +70,10 @@ void setup() {
     pinMode(solenoidPins[i], OUTPUT);
     solenoids[i]->setPin(solenoidPins[i]);
   }
+
+  
+
+  setupOSC();
 }
 
 void loop() {
