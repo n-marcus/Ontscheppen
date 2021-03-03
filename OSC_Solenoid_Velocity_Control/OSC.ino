@@ -26,7 +26,7 @@ unsigned int listeningPort = 8888;      // local port to listen on
 // set up our destination NODE
 NetAddress destination;
 IPAddress destinationIP(  169, 254, 233, 100 );
-int destinationPort = 9999;
+int destinationPort = 8080;
 
 elapsedMillis lastHeartBeat;
 int heartRate = 1000;
@@ -56,15 +56,20 @@ void setupOSC() {
 void OSCHeartBeat() {
   if (lastHeartBeat > heartRate) {
     Serial.println("Sending heartbeat!");
-    //create an OSC message
-//    OscMessage msg("/heartBeat");
-//    msg.add("beat!");
-//    UDP.beginPacket(destinationIP, destinationPort);
-//    msg.send(UDP);
-//    UDP.endPacket();
-//    msg.empty();
+    //    create an OSC message
+    //    OscMessage msg("/h");
+    //    msg.add("b");
+    //    UDP.beginPacket(destinationIP, destinationPort);
+    //    msg.send(UDP);
+    //    UDP.endPacket();
+    //    msg.empty();
 
-//    sendOSC("heartBeat", 1);
+    UDP.beginPacket(destinationIP, destinationPort);
+
+    UDP.write("h");
+    UDP.endPacket();
+
+    //    sendOSC("heartBeat", 1);
 
     //reset the heartbeat timer
     lastHeartBeat = 0;
@@ -90,6 +95,10 @@ void solenoidOSC(OscMessage &m) {
   sol = sol % NUM_SOLENOIDS;
   int vel = m.getInt(1);
   vel = constrain(vel, 0, 100);
-  Serial.println("Triggering solenoid " + String(sol) + " with velocity: " + String(vel));
-  solenoids[sol]->trigger(vel);
+  if (vel > 0) {
+    Serial.println("Triggering solenoid " + String(sol) + " with velocity: " + String(vel));
+    solenoids[sol]->trigger(vel);
+  } else {
+    //    Serial.println("Velocity is 0, ignoring this");
+  }
 }
