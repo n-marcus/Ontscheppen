@@ -43,7 +43,7 @@ void setupOSC() {
   etherOSC.begin(UDP);
 
   // define our destination location
-  destination.set(destinationIP, destinationPort);
+  destination.set(destinationIP, destinationPort); 
 
   delay(500);
   Serial.println("Hey! My IP is:");
@@ -56,6 +56,7 @@ void setupOSC() {
 void OSCHeartBeat() {
   if (lastHeartBeat > heartRate) {
     Serial.println("Sending heartbeat!");
+    // it seems that if the host cannot be found the UDP.beginPacket() function is blocked and stalls the Teensy completely for a few seconds
     //    create an OSC message
     //    OscMessage msg("/h");
     //    msg.add("b");
