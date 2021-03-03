@@ -4,6 +4,10 @@
 #include <OSCMessage.h>
 #include <OSCBundle.h>
 #include <OSCBoards.h>
+// MESSAGE PROTOCOL OBJECT
+//get the necessary files from
+//https://github.com/davidbouchard/arduino-osc
+#include <OscUDP.h>
 
 #define NUM_SOLENOIDS 16
 
@@ -20,7 +24,7 @@ class Solenoid {
       if (state &&  millis() -  lastTriggerTime >= maxOnTime) {
         state = false;
         digitalWrite(pin, LOW);
-//        Serial.println("Solenoid on pin " + String(pin) + " is now off because " + String(millis() - lastTriggerTime) + " >= " + String(maxOnTime));
+        //        Serial.println("Solenoid on pin " + String(pin) + " is now off because " + String(millis() - lastTriggerTime) + " >= " + String(maxOnTime));
       }
     }
 
