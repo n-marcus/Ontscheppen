@@ -18,6 +18,11 @@ void setupOSC() {
 
 
 void getOSC() {
+
+
+  // important! non-blocking listen routine
+//  etherOSC.listen();  // if there is data waiting, this will trigger OSC EVENT
+
   OSCBundle bundleIN;
   //  Serial.println("Getting osc");
   int size;
@@ -35,15 +40,18 @@ void getOSC() {
       //      Serial.print(i);
       //      Serial.print(", ");
       Serial.print(incoming[i]);
+
+      //it prints ,ii to denote that it's 2 integers 32bit int32_t in arduino
     }
+
     Serial.println("");
 
-    if (matchPattern(incoming, "/test")) {
+    if (matchPattern(incoming, "/test") > 0) {
       Serial.print("Test data:");
       Serial.println(incoming[defSize - 1]);
     }
 
-    if (matchPattern(incoming, "/solenoid")) {
+    if (matchPattern(incoming, "/solenoid") > 0) {
       //      Serial.println("We got a solenoid trigger message");
       int solNum = incoming[defSize - 1];
       solNum = solNum % NUM_SOLENOIDS;
@@ -58,7 +66,7 @@ void getOSC() {
 }
 
 
-boolean matchPattern(byte *arr, String pattern) {
+int matchPattern(byte *arr, String pattern) {
   //function to check if an OSC pattern matches a query
   unsigned int counter = 0;
   for (unsigned int i = 0; i < pattern.length(); i++) {
@@ -67,10 +75,10 @@ boolean matchPattern(byte *arr, String pattern) {
     }
   }
   if (counter == pattern.length()) {
-    return true;
+    return pattern.length();
   }
   else {
-    return false;
+    return 0;
   }
 }
 
