@@ -20,7 +20,7 @@ class Solenoid {
       if (state &&  millis() -  lastTriggerTime >= maxOnTime) {
         state = false;
         digitalWrite(pin, LOW);
-        Serial.println("Solenoid on pin " + String(pin) + " is now off because " + String(millis() - lastTriggerTime) + " >= " + String(maxOnTime));
+//        Serial.println("Solenoid on pin " + String(pin) + " is now off because " + String(millis() - lastTriggerTime) + " >= " + String(maxOnTime));
       }
     }
 
@@ -32,7 +32,7 @@ class Solenoid {
         digitalWrite(pin, HIGH);
         lastTriggerTime = millis(); //when was I last triggered?
         state = true; //now the solenoid is on
-        Serial.println("Solenoid on pin " + String(pin) + " is now on with time " + String(lastTriggerTime));
+        Serial.println("Solenoid on pin " + String(pin) + " is triggered at time " + String(lastTriggerTime));
       }
     }
 
