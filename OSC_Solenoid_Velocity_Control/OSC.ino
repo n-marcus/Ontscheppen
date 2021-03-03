@@ -1,3 +1,12 @@
+//Teensy 3.2 ethernet wiring:
+// Ethernet adapter label -> Teensy port number
+// SCK  ->  13
+// MI   ->  12
+// MO   ->  11
+// CS   ->  10
+// RST  ->  9
+// V    ->  3.3v
+// G    ->  GND
 
 // setup a UDP object
 EthernetUDP UDP;
