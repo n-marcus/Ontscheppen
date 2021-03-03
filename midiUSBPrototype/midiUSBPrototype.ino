@@ -47,7 +47,7 @@ class Solenoid {
 Solenoid *solenoids[NUM_SOLENOIDS];
 
 //name the pins that MOSFETs are connected to here
-int solenoidPins[NUM_SOLENOIDS] = {1, 2, 3, 4, 5, 6, 7, 8, 23, 22, 21, 20, 19, 18, 17, 16};
+int solenoidPins[NUM_SOLENOIDS] = {0, 1, 2, 3, 4, 5, 6, 7, 23, 22, 21, 20, 19, 18, 17, 16};
 
 void setup() {
   Serial.begin(115200);
@@ -92,7 +92,7 @@ void solenoidPulse(int note, byte velocity) { //note is 0-11
   //this function makes a solenoid pulse and stores it in an array to keep track of which solenoids are triggered or not
   int solenoid = note % NUM_SOLENOIDS;
   //TODO make timing work with microSeconds for a higher velocity resolution
-  int timing = (float(velocity) / 128.) * 50; //calculate velocity, from 0 - 128 to 0 - 50ms for the timing
+  int timing = (float(velocity) / 128.) * 40; //calculate velocity, from 0 - 128 to 0 - 50ms for the timing
   Serial.println("Triggering solenoid " + String(solenoid) + " on pin " + String(solenoids[solenoid]->getPin()) + " with timing " + String(timing));
 
   //trigger the class and fire the physical solenoid
