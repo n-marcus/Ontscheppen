@@ -70,16 +70,17 @@ void setup() {
 
   setupMIDI();
   setupSolenoids();
-  testSolenoids();
+  delay(200);
+  //  testSolenoids();
   setupOSC();
 }
 
 void loop() {
-
+  updateSolenoids();
   //get incoming MIDI
   usbMIDI.read();
   // important! non-blocking listen routine
   etherOSC.listen();  // if there is data waiting, this will trigger OSC EVENT
 
-  OSCHeartBeat();
+  //  OSCHeartBeat();
 }

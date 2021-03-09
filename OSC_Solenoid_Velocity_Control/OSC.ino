@@ -1,4 +1,4 @@
-//Teensy 3.2 ethernet wiring:
+// Teensy 3.2 ethernet wiring:
 // Ethernet adapter label -> Teensy port number
 // SCK  ->  13
 // MI   ->  12
@@ -43,7 +43,7 @@ void setupOSC() {
   etherOSC.begin(UDP);
 
   // define our destination location
-  destination.set(destinationIP, destinationPort); 
+  destination.set(destinationIP, destinationPort);
 
   delay(500);
   Serial.println("Hey! My IP is:");
@@ -55,7 +55,7 @@ void setupOSC() {
 
 void OSCHeartBeat() {
   if (lastHeartBeat > heartRate) {
-    Serial.println("Sending heartbeat!");
+    //    Serial.println("Sending heartbeat!");
     // it seems that if the host cannot be found the UDP.beginPacket() function is blocked and stalls the Teensy completely for a few seconds
     //    create an OSC message
     //    OscMessage msg("/h");
@@ -64,11 +64,11 @@ void OSCHeartBeat() {
     //    msg.send(UDP);
     //    UDP.endPacket();
     //    msg.empty();
-
-    UDP.beginPacket(destinationIP, destinationPort);
-
-    UDP.write("h");
-    UDP.endPacket();
+    //
+    //    UDP.beginPacket(destinationIP, destinationPort);
+    //
+    //    UDP.write("h");
+    //    UDP.endPacket();
 
     //    sendOSC("heartBeat", 1);
 
@@ -89,7 +89,7 @@ void oscEvent(OscMessage &m) { // *note the & before msg
 }
 
 void solenoidOSC(OscMessage &m) {
-  Serial.println("Received solenoid OSC message");
+//  Serial.println("Received solenoid OSC message");
   char address[20];
   m.getAddress(address, 0);
   int sol = m.getInt(0);

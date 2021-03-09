@@ -35,3 +35,9 @@ void testSolenoids() {
   }
   Serial.println("Testing done");
 }
+
+void updateSolenoids() { 
+  for (int i =0 ; i < NUM_SOLENOIDS; i ++) { 
+    solenoids[i]->update();
+  }
+}
