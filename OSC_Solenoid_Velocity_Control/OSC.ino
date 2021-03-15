@@ -16,7 +16,7 @@ EthernetUDP UDP;
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 // listeningIP ==  SHIELD initialization IP
-IPAddress listeningIP(169, 254, 143, 4); // you need to set this
+IPAddress listeningIP(169, 254, 143, 3); // you need to set this
 
 // listening -- port
 unsigned int listeningPort = 8888;      // local port to listen on
@@ -29,6 +29,8 @@ int destinationPort = 8080;
 
 elapsedMillis lastHeartBeat;
 int heartRate = 1000;
+
+
 
 void setupOSC() {
   // start ethernet on the shield
@@ -47,10 +49,34 @@ void setupOSC() {
   delay(500);
   Serial.println("Hey! My IP is:");
   Serial.println(Ethernet.localIP());
+
+
   Serial.println("and I am listening to messages on port " + String(listeningPort));
 
   Serial.println("I will be sending stuff to:");
   Serial.println(String(destinationIP) + " and port: " + String(destinationPort));
+
+  checkLinkStatus();
+
+
+
+}
+
+void checkLinkStatus() {
+
+
+  if (Ethernet.linkStatus() == Unknown) {
+    Serial.println("Link status unknown. Link status detection is only available with W5200 and W5500.");
+    linkStatus = 0;
+  }
+  else if (Ethernet.linkStatus() == LinkON) {
+    Serial.println("Link status: On");
+    linkStatus = 1;
+  }
+  else if (Ethernet.linkStatus() == LinkOFF) {
+    Serial.println("Link status: Off");
+    linkStatus = 2;
+  }
 }
 
 void OSCHeartBeat() {
@@ -89,7 +115,7 @@ void oscEvent(OscMessage &m) { // *note the & before msg
 }
 
 void solenoidOSC(OscMessage &m) {
-//  Serial.println("Received solenoid OSC message");
+  //  Serial.println("Received solenoid OSC message");
   char address[20];
   m.getAddress(address, 0);
   int sol = m.getInt(0);

@@ -13,20 +13,30 @@ void setupLEDs() {
     delay(40);
   }
 
-  for (int i = 0; i < 100; i ++) {
-    leds.fadeToBlackBy(40);
+  for (int i = 0; i < 100; i ++) { 
+    leds.fadeToBlackBy(50);
     FastLED.show();
-    delay(20);
+    delay(10);
   }
 }
 
 void updateLEDs() {
   for (int i = 0; i < NUM_SOLENOIDS; i ++) {
     if (solenoids[i]->getState()) {
-      leds[i] = CHSV(200, 255, 255);
+      leds[i] = CHSV(i * (255/8), 255, 255);
     }
   }
 
-  leds.fadeToBlackBy(20);
+  // do some periodic updates
+  EVERY_N_SECONDS( 4 ) {
+    checkLinkStatus();
+    Serial.println("Checking link status " + String(linkStatus));
+    if (linkStatus == 2 || linkStatus == 0) {
+      Serial.println("Link Status = 0, Flashing red");
+      fill_solid(leds, NUM_LEDS, CRGB::Green);
+    } 
+  }
+
+  leds.fadeToBlackBy(50);
   FastLED.show();
 }

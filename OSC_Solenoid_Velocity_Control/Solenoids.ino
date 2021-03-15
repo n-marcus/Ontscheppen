@@ -1,7 +1,7 @@
 
 
 //name the pins that MOSFETs are connected to here
-int solenoidPins[NUM_SOLENOIDS] = {1, 2, 3, 4, 5, 6, 7, 8, 23, 22, 21, 20, 19, 18, 17, 16};
+int solenoidPins[NUM_SOLENOIDS] = {3, 4, 5, 6, 7, 8, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
 
 void solenoidPulse(int note, byte velocity) { //note is 0-11
   //this function makes a solenoid pulse and stores it in an array to keep track of which solenoids are triggered or not

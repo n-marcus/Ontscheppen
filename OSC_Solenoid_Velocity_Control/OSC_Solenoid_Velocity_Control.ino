@@ -10,6 +10,8 @@
 
 // OUR OSC MESSAGE OBJECT
 OscUDP etherOSC;
+int linkStatus = 0; //Status of Ethernet connection 0 is undefined, 1 is on, 2 is off 
+
 
 
 #define NUM_SOLENOIDS 16

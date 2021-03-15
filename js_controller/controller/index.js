@@ -1,9 +1,5 @@
 
-
-
 let teensys = [];
-
-
 let connect;
 let send;
 
@@ -37,7 +33,7 @@ function setup()  {
     client = new Client();
 
     //start de client en laat deze berichten sturen naar het ip-adres 127.0.0.1 en poort 9000
-    client.startClient("169.254.143.4",8888);
+    client.startClient("169.254.143.3",8888);
   });
 
 }
@@ -68,4 +64,16 @@ function mouseMoved() {
 function oscReceiver(addr, msg) {
   console.log("osc message " + addr + " " + msg);
   teensys[0].fire(msg[0] % teensys[0].numSols, false);
+}
+
+function keyPressed() {
+  console.log("pressed " + key);
+  if (key == "Enter") {
+    console.log("Pressed enter");
+    sendIP();
+  }
+}
+
+function sendIP() {
+  // client.send("/hostIP",
 }
