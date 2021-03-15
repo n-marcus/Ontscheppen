@@ -16,11 +16,10 @@ EthernetUDP UDP;
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 // listeningIP ==  SHIELD initialization IP
-IPAddress listeningIP(169, 254, 143, 3); // you need to set this
+IPAddress listeningIP(169, 254, 143, 4); // you need to set this
 
 // listening -- port
 unsigned int listeningPort = 8888;      // local port to listen on
-
 
 // speaking
 // set up our destination NODE
@@ -48,6 +47,7 @@ void setupOSC() {
   delay(500);
   Serial.println("Hey! My IP is:");
   Serial.println(Ethernet.localIP());
+  Serial.println("and I am listening to messages on port " + String(listeningPort));
 
   Serial.println("I will be sending stuff to:");
   Serial.println(String(destinationIP) + " and port: " + String(destinationPort));

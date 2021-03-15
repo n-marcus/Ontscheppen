@@ -5,6 +5,7 @@
 #include <SPI.h>
 #include <Ethernet.h>
 #include <EthernetUdp.h>
+#include <FastLED.h>
 
 
 // OUR OSC MESSAGE OBJECT
@@ -69,6 +70,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   setupMIDI();
+  setupLEDs();
   setupSolenoids();
   delay(200);
   //  testSolenoids();
@@ -83,4 +85,9 @@ void loop() {
   etherOSC.listen();  // if there is data waiting, this will trigger OSC EVENT
 
   //  OSCHeartBeat();
+
+  // do some periodic updates
+  EVERY_N_MILLISECONDS( 30 ) {
+    updateLEDs(); 
+  }
 }
