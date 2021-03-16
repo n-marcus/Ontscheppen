@@ -10,7 +10,9 @@
 
 // OUR OSC MESSAGE OBJECT
 OscUDP etherOSC;
-int linkStatus = 0; //Status of Ethernet connection 0 is undefined, 1 is on, 2 is off 
+elapsedMillis lastOscMessage;
+int linkStatus = 0; //Status of Ethernet connection 0 is undefined, 1 is on, 2 is off
+
 
 
 
@@ -90,6 +92,12 @@ void loop() {
 
   // do some periodic updates
   EVERY_N_MILLISECONDS( 30 ) {
-    updateLEDs(); 
+    updateLEDs();
+  }
+
+  // do some periodic updates
+  EVERY_N_SECONDS( 1 ) {
+    updateOSC();
+
   }
 }

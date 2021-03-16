@@ -28,6 +28,7 @@ IPAddress destinationIP(  169, 254, 233, 100 );
 int destinationPort = 8080;
 
 elapsedMillis lastHeartBeat;
+
 int heartRate = 1000;
 
 
@@ -57,8 +58,6 @@ void setupOSC() {
   Serial.println(String(destinationIP) + " and port: " + String(destinationPort));
 
   checkLinkStatus();
-
-
 
 }
 
@@ -103,6 +102,18 @@ void OSCHeartBeat() {
   }
 }
 
+void updateOSC() {
+  if (lastOscMessage > 10 * 1000) {
+    checkLinkStatus();
+
+    Serial.println("Checking link status " + String(linkStatus));
+    if (linkStatus == 2 || linkStatus == 0) {
+      Serial.println("Link Status = 0, Flashing red");
+      fill_solid(leds, NUM_LEDS, CRGB::Green);
+    }
+  }
+}
+
 void oscEvent(OscMessage &m) { // *note the & before msg
   // receive a message
   char address[20];
@@ -110,7 +121,7 @@ void oscEvent(OscMessage &m) { // *note the & before msg
   Serial.print("Received OSC message on adress:");
   Serial.print(address);
   Serial.println("");
-
+  lastOscMessage = 0;
   m.plug("/solenoid", solenoidOSC);
 }
 
