@@ -82,6 +82,7 @@ class TeensyController {
   checkClick() {
     if (mouseX > this.x - (this.teensyBoxW / 2) && mouseX < this.x + (this.teensyBoxW / 2) && mouseY > this.y - (this.teensyBoxH / 2) && mouseY < this.y + (this.teensyBoxH / 2)) {
       this.click();
+      console.log("clicked!");
     }
 
 
@@ -101,7 +102,7 @@ class TeensyController {
 
   fireAll() {
     for (let i = 0; i < this.numSols; i ++) {
-      this.solenoids[i].fire();
+      this.solenoids[i].fire(true);
     }
   }
 }

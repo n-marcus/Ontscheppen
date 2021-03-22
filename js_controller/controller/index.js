@@ -3,6 +3,8 @@ let teensys = [];
 let connect;
 let send;
 
+let index;
+
 numTeensys = 2;
 
 function setup()  {
@@ -33,7 +35,7 @@ function setup()  {
     client = new Client();
 
     //start de client en laat deze berichten sturen naar het ip-adres 127.0.0.1 en poort 9000
-    client.startClient("169.254.143.3",8888);
+    client.startClient("169.254.143.2",8888);
   });
 
 }
@@ -59,6 +61,13 @@ function mouseMoved() {
     // teensys[i].checkClick();
     teensys[i].checkHover();
   }
+}
+
+function mousePressed() {
+  for (let i = 0; i < numTeensys; i ++) {
+    teensys[i].checkClick();
+  }
+
 }
 
 function oscReceiver(addr, msg) {
