@@ -63,15 +63,15 @@ void setupOSC() {
 
 void checkLinkStatus() {
   if (Ethernet.linkStatus() == Unknown) {
-//    Serial.println("Link status unknown. Link status detection is only available with W5200 and W5500.");
+    //    Serial.println("Link status unknown. Link status detection is only available with W5200 and W5500.");
     linkStatus = 0;
   }
   else if (Ethernet.linkStatus() == LinkON) {
-//    Serial.println("Link status: On");
+    //    Serial.println("Link status: On");
     linkStatus = 1;
   }
   else if (Ethernet.linkStatus() == LinkOFF) {
-//    Serial.println("Link status: Off");
+    //    Serial.println("Link status: Off");
     linkStatus = 2;
   }
 }
@@ -108,9 +108,14 @@ void updateOSC() {
     if (linkStatus == 2) {
       Serial.println("Link Status = 2, Flashing red");
       leds[0] = CRGB::Green;
-    } else if (linkStatus == 1) { 
+      leds[NUM_LEDS] = CRGB::Green;
+      leds[NUM_LEDS - 1] = CRGB::Green;
+    } else if (linkStatus == 1) {
       leds[0] = CRGB::Red;
-    } else if (linkStatus == 0) { 
+      leds[NUM_LEDS] = CRGB::Red;
+      leds[NUM_LEDS - 1] = CRGB::Red;
+      leds[NUM_LEDS - 1] = CRGB::Red;
+    } else if (linkStatus == 0) {
       fill_solid(leds, NUM_LEDS, CRGB::Purple);
     }
   }
