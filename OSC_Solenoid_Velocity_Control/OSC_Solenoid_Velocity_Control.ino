@@ -1,4 +1,6 @@
 
+
+
 // MESSAGE PROTOCOL OBJECT
 #include <OscUDP.h>
 // hardware libraries to access use the shield
@@ -17,6 +19,9 @@ int linkStatus = 0; //Status of Ethernet connection 0 is undefined, 1 is on, 2 i
 
 
 #define NUM_SOLENOIDS 16
+
+const int NUM_LEDS = NUM_SOLENOIDS + 2;
+CRGBArray<NUM_LEDS> leds;
 
 
 //Solenoid class
@@ -76,6 +81,8 @@ void setup() {
   setupMIDI();
   setupLEDs();
   setupSolenoids();
+  setupButton();
+  
   delay(200);
   //  testSolenoids();
   setupOSC();
@@ -90,14 +97,21 @@ void loop() {
 
   //  OSCHeartBeat();
 
+ 
   // do some periodic updates
   EVERY_N_MILLISECONDS( 30 ) {
     updateLEDs();
+    updateButton();
   }
+
 
   // do some periodic updates
   EVERY_N_SECONDS( 1 ) {
     updateOSC();
 
   }
+
+
+   
+  
 }

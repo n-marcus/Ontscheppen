@@ -108,13 +108,13 @@ void updateOSC() {
     if (linkStatus == 2) {
       Serial.println("Link Status = 2, Flashing red");
       leds[0] = CRGB::Green;
-      leds[NUM_LEDS] = CRGB::Green;
       leds[NUM_LEDS - 1] = CRGB::Green;
+      leds[NUM_LEDS - 2] = CRGB::Green;
     } else if (linkStatus == 1) {
       leds[0] = CRGB::Red;
       leds[NUM_LEDS] = CRGB::Red;
       leds[NUM_LEDS - 1] = CRGB::Red;
-      leds[NUM_LEDS - 1] = CRGB::Red;
+      leds[NUM_LEDS - 2] = CRGB::Red;
     } else if (linkStatus == 0) {
       fill_solid(leds, NUM_LEDS, CRGB::Purple);
     }

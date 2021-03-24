@@ -1,12 +1,15 @@
 #define LED_PIN 2
+#define BRIGHTNESS  50
 
-const int NUM_LEDS = NUM_SOLENOIDS + 2;
-CRGBArray<NUM_LEDS> leds;
+
+  
 
 int ledHue = 150;
 
 void setupLEDs() {
   FastLED.addLeds<NEOPIXEL, LED_PIN>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS );
+  
   for (int i = 0; i < NUM_LEDS; i ++) {
     leds[i] = CHSV(ledHue, 255, 255);
     leds.fadeToBlackBy(40);
@@ -30,6 +33,11 @@ void updateLEDs() {
       leds[i] = CHSV(ledHue, solVel, solVel);
     }
   }
+
   leds.fadeToBlackBy(50);
   FastLED.show();
+
+
+
+  
 }
