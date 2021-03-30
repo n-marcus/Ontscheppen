@@ -29,7 +29,7 @@ class Solenoid {
     //
     fill(0);
     textSize(18);
-    text(this.index, this.x, this.y);
+    text(this.index + 1, this.x, this.y);
 
     // this.drawDots();
   }

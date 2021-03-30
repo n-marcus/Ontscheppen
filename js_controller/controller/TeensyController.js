@@ -84,8 +84,9 @@ class TeensyController {
       this.click();
       console.log("clicked!");
     }
-
-
+    for (let i = 0; i < this.numSols; i ++) {
+      this.solenoids[i].checkClick();
+    }
   }
 
   checkHover() {

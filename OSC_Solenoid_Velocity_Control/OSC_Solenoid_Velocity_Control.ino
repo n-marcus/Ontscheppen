@@ -16,8 +16,6 @@ elapsedMillis lastOscMessage;
 int linkStatus = 0; //Status of Ethernet connection 0 is undefined, 1 is on, 2 is off
 
 
-
-
 #define NUM_SOLENOIDS 16
 
 const int NUM_LEDS = NUM_SOLENOIDS + 2;
@@ -74,7 +72,7 @@ Solenoid *solenoids[NUM_SOLENOIDS];
 
 void setup() {
   Serial.begin(15200);
-  delay(500);
+//  delay(500);
   Serial.println("I am alive!");
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -82,9 +80,9 @@ void setup() {
   setupLEDs();
   setupSolenoids();
   setupButton();
-  
+
   delay(200);
-  //  testSolenoids();
+  testSolenoids();
   setupOSC();
 }
 
@@ -97,7 +95,7 @@ void loop() {
 
   //  OSCHeartBeat();
 
- 
+
   // do some periodic updates
   EVERY_N_MILLISECONDS( 30 ) {
     updateLEDs();
@@ -112,6 +110,6 @@ void loop() {
   }
 
 
-   
-  
+
+
 }

@@ -10,6 +10,7 @@ void updateButton(){
   int buttonRead = digitalRead(BUTTON_PIN);
   if(!buttonRead ){
     leds[1] = CRGB::Yellow;
+    testSolenoids();
   }
   
 }

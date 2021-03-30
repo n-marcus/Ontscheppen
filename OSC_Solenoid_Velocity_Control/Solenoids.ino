@@ -1,7 +1,9 @@
 
 
 //name the pins that MOSFETs are connected to here
-int solenoidPins[NUM_SOLENOIDS] = {3, 4, 5, 6, 7, 8, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
+//the order is important in combination with the wiring of the Teensy
+int solenoidPins[NUM_SOLENOIDS] = {16, 17, 18, 19, 20, 21, 22, 23, 3, 4, 5, 6, 7, 8, 15, 14};
+
 
 void solenoidPulse(int note, byte velocity) { //note is 0-11
   //this function makes a solenoid pulse and stores it in an array to keep track of which solenoids are triggered or not
@@ -27,17 +29,21 @@ void setupSolenoids() {
 
 void testSolenoids() {
   Serial.println("Starting a solenoid testing sequence");
-  delay(100);//wait till all solenoids have fired
+  delay(10);//wait till all solenoids have fired
   for (int i = 0; i < NUM_SOLENOIDS; i ++)  {
-    solenoids[i]->trigger(50);
     Serial.println("Now test firing solenoid " + String(i) + " on pin " +  String(solenoids[i]->getPin()));
+    solenoids[i]->trigger(30);
+    delay(40);
+    solenoids[i]->update(); //call update to discharge the solenoid
+    leds[i] = CHSV(ledHue, 255, 255);
+    FastLED.show();
     delay(100);
   }
   Serial.println("Testing done");
 }
 
-void updateSolenoids() { 
-  for (int i =0 ; i < NUM_SOLENOIDS; i ++) { 
+void updateSolenoids() {
+  for (int i = 0 ; i < NUM_SOLENOIDS; i ++) {
     solenoids[i]->update();
   }
 }
