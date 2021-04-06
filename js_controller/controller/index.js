@@ -3,6 +3,8 @@ let teensys = [];
 let connect;
 let send;
 
+let ips = ["169.254.143.1", "169.254.143.2"];
+
 let index;
 
 numTeensys = 2;
@@ -13,7 +15,7 @@ function setup()  {
   createCanvas(window.innerWidth, window.innerHeight);
   background(255);
   for (let i = 0; i < numTeensys; i ++) {
-    teensys[i] = new TeensyController((width / (numTeensys + 1)) * (i + 1), height / 2, i);
+    teensys[i] = new TeensyController((width / (numTeensys + 1)) * (i + 1), height / 2, i, ips[i]);
   }
 
 
@@ -35,7 +37,19 @@ function setup()  {
     client = new Client();
 
     //start de client en laat deze berichten sturen naar het ip-adres 127.0.0.1 en poort 9000
-    client.startClient("169.254.143.2",8888);
+    client.startClient("169.254.143.1",8888);
+  });
+
+  //maak een connect-object aan dat zorgt voor de communicatie met oscServer.js
+  send1 = new Connect();
+
+  //maak verbinding met oscServer.js, en voer code tussen {} uit zodra deze verbinding tot stand is gekomen.
+  send1.connectToServer(function() {
+    client1 = new Client();
+    //maak een nieuwe client-object aan.
+
+    //start de client en laat deze berichten sturen naar het ip-adres 127.0.0.1 en poort 9000
+    client1.startClient("169.254.143.2",8888);
   });
 
 }

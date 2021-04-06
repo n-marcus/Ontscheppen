@@ -1,5 +1,5 @@
 class TeensyController {
-  constructor(x, y, i) {
+  constructor(x, y, i, ip) {
     this.numSols = 16;
     this.solSides = 2;
     this.x = x;
@@ -8,6 +8,8 @@ class TeensyController {
     this.circleInterval = TWO_PI / this.numSols;
     this.teensyBoxW = this.circleSize * 0.75;
     this.teensyBoxH = this.circleSize * 0.5;
+
+    this.ip = ip;
 
     this.solenoids = [];
     this.index = i;
@@ -60,6 +62,7 @@ class TeensyController {
     textSize(10);
     noStroke();
     text("Teensy " + (this.index + 1), this.x, this.y);
+    text(this.ip, this.x, this.y + 10);
   }
 
   fire(sol) {
