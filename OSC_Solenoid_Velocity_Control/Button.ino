@@ -9,7 +9,7 @@ void setupButton(){
 void updateButton(){
   int buttonRead = digitalRead(BUTTON_PIN);
   if(!buttonRead ){
-    leds[1] = CRGB::Yellow;
+    fill_solid(leds, NUM_LEDS, CRGB::Black);
     testSolenoids();
   }
   

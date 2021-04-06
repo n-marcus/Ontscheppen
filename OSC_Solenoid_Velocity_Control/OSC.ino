@@ -135,13 +135,15 @@ void oscEvent(OscMessage &m) { // *note the & before msg
 }
 
 void solenoidOSC(OscMessage &m) {
+  //if we received a /solenoid message
   //  Serial.println("Received solenoid OSC message");
   char address[20];
   m.getAddress(address, 0);
+  //get the solenoid number
   int sol = m.getInt(0);
-  sol = sol % NUM_SOLENOIDS;
-  int vel = m.getInt(1);
-  vel = constrain(vel, 0, 100);
+  sol = sol % NUM_SOLENOIDS; //make sure it doesnt overflow
+  int vel = m.getInt(1); //get the velocity
+  vel = constrain(vel, 0, 100); //make sure it doesnt overflow
   if (vel > 0) {
     Serial.println("Triggering solenoid " + String(sol) + " with velocity: " + String(vel));
     solenoids[sol]->trigger(vel);

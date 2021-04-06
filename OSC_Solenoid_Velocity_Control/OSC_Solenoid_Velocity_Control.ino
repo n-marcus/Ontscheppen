@@ -1,6 +1,3 @@
-
-
-
 // MESSAGE PROTOCOL OBJECT
 #include <OscUDP.h>
 // hardware libraries to access use the shield
