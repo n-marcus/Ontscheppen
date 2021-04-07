@@ -13,10 +13,11 @@ EthernetUDP UDP;
 
 // Enter a MAC address and IP address for your SHIELD.
 // The IP address will be dependent on your local network
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+//Make sure use a different Mac and IP adress for every Teensy controller
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xFE};
 
 // listeningIP ==  SHIELD initialization IP
-IPAddress listeningIP(169, 254, 143, 2); // you need to set this
+IPAddress listeningIP(169, 254, 143, 2); // change this per Teensy
 
 // listening -- port
 unsigned int listeningPort = 8888;      // local port to listen on

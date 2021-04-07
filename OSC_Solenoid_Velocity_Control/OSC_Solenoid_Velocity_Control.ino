@@ -94,7 +94,7 @@ void loop() {
 
 
   // do some periodic updates
-  EVERY_N_MILLISECONDS( 30 ) {
+  EVERY_N_MILLISECONDS( 10 ) {
     updateLEDs();
     updateButton();
   }
