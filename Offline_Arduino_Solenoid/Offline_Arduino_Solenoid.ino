@@ -1,5 +1,7 @@
 #define NUM_SOLENOIDS 4
 
+int speed = 50;
+
 int wait = 500;
 
 int waitMin = 10;
@@ -92,7 +94,7 @@ void loop() {
     waitDir = true;
   }
 
-  if (cycleCount  % wait == 0) { 
+  if (cycleCount % wait == 0) { 
     solenoidIndex ++;
     solenoidIndex = solenoidIndex % NUM_SOLENOIDS;
     solenoids[solenoidIndex]->trigger(40); 
@@ -103,6 +105,7 @@ void loop() {
   }
 
   cycleCount ++;
+  delay(speed);
 }
 
 void setupSolenoids() {

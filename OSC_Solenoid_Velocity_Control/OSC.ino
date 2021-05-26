@@ -104,7 +104,6 @@ void OSCHeartBeat() {
 void updateOSC() {
   if (lastOscMessage > 10 * 1000) {
     checkLinkStatus();
-
     Serial.println("Checking link status " + String(linkStatus));
     if (linkStatus == 2) {
       Serial.println("Link Status = 2, Flashing red");

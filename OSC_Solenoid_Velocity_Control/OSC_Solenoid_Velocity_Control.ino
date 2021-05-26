@@ -15,6 +15,7 @@ int linkStatus = 0; //Status of Ethernet connection 0 is undefined, 1 is on, 2 i
 
 #define NUM_SOLENOIDS 16
 
+//add two for eyes
 const int NUM_LEDS = NUM_SOLENOIDS + 2;
 CRGBArray<NUM_LEDS> leds;
 
@@ -69,7 +70,7 @@ Solenoid *solenoids[NUM_SOLENOIDS];
 
 void setup() {
   Serial.begin(15200);
-//  delay(500);
+  //  delay(500);
   Serial.println("I am alive!");
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -91,22 +92,14 @@ void loop() {
   etherOSC.listen();  // if there is data waiting, this will trigger OSC EVENT
 
   //  OSCHeartBeat();
-
-
   // do some periodic updates
   EVERY_N_MILLISECONDS( 10 ) {
     updateLEDs();
     updateButton();
   }
 
-
   // do some periodic updates
   EVERY_N_SECONDS( 1 ) {
     updateOSC();
-
   }
-
-
-
-
 }
