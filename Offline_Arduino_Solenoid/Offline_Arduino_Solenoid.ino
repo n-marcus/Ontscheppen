@@ -1,4 +1,11 @@
+#include <FastLED.h>
+
+//how many solenoids are connected?
 #define NUM_SOLENOIDS 4
+
+//add two for eyes
+const int NUM_LEDS = NUM_SOLENOIDS + 2;
+CRGBArray<NUM_LEDS> leds;
 
 int speed = 50;
 
@@ -20,6 +27,20 @@ int solenoidIndex = 0;
 
 long lastTrigger = 0;
 
+//are we going fast?
+bool fastMode = false;
+//how many triggers will we have in fast mode?
+int maxFastTriggers = 25;
+//how many triggers have we had in fastmode?
+int fastTriggers = 0;
+//how max fast is fast mode? in ms between triggers
+int maxFastTriggerTime = 100;
+//how min fast is fast mode in ms between triggers
+int minFastTriggerTime = 10;
+
+int minDelTime = 200;
+int maxDelTime = 2000;
+
 //Solenoid class
 class Solenoid {
     //a class to describe how a solenoid works
@@ -33,7 +54,7 @@ class Solenoid {
       if (state &&  millis() -  lastTriggerTime >= maxOnTime) {
         state = false;
         digitalWrite(pin, LOW);
-//        Serial.println("Solenoid on pin " + String(pin) + " is now off because " + String(millis() - lastTriggerTime) + " >= " + String(maxOnTime));
+        //        Serial.println("Solenoid on pin " + String(pin) + " is now off because " + String(millis() - lastTriggerTime) + " >= " + String(maxOnTime));
       }
     }
 
@@ -81,31 +102,65 @@ void setup() {
 
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
-  if (waitDir) { 
-    wait += waitIncr;
-  } else {
-    wait -= waitIncr;
-  }
-  if (wait > waitMax) { 
-    waitDir = false;
-  } else if (wait < waitMin) { 
-    waitDir = true;
+  //20% chance of going into fast mode
+  if (random(100) < 20) {
+    fastMode = true;
+    minDelTime = minFastTriggerTime;
+    maxDelTime = maxFastTriggerTime;
+    Serial.println("Fast mode is on");
   }
 
-  if (cycleCount % wait == 0) { 
-    solenoidIndex ++;
-    solenoidIndex = solenoidIndex % NUM_SOLENOIDS;
-    solenoids[solenoidIndex]->trigger(40); 
+  //if we have reached the max amount of fast triggers, go back to normal mode
+  if (fastTriggers > maxFastTriggers) {
+    fastMode = false;
+    Serial.println("Fast mode is off");
+    minDelTime = 500;
+    maxDelTime = 1000;
+    fastTriggers = 0;
   }
 
-  for (int i = 0; i < NUM_SOLENOIDS; i ++) { 
+  //pick a random solenoid to trigger
+  solenoidIndex  = random(NUM_SOLENOIDS);
+  Serial.println("About to randomly trigger solenoid " + String(solenoidIndex));
+
+  //pick a random timing to wait after the trigger
+  int delayTime = int(random(minDelTime, maxDelTime));
+  Serial.println("Will wait for " + String(delayTime) + " seconds afterwards");
+
+  //trigger solenoid for 25 ms
+  solenoids[solenoidIndex]->trigger(25);
+  if (fastMode) {
+    fastTriggers ++; //count how many fast triggers we've had
+  }
+
+  //update every solenoid
+  for (int i = 0; i < NUM_SOLENOIDS; i ++) {
     solenoids[i]->update();
   }
 
+  //turn LEDs on or off accordingly
+  updateLEDs();
+
+
+  //5% chance to get into repeat mode
+  if (random(100) < 5) {
+    for (int i = 0; i < NUM_SOLENOIDS; i ++) {
+      int delayTime = random(10, 50);
+      for (int r = 0; r < 40; r ++) {
+        solenoids[i]->trigger(delayTime);
+        delay(delayTime + 5);
+        solenoids[i]->update();
+        delay(2);
+      }
+    }
+  }
+
+
+
   cycleCount ++;
-  delay(speed);
+  //wait random time
+  delay(delayTime);
+
 }
 
 void setupSolenoids() {
