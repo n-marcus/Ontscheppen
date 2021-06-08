@@ -1,4 +1,4 @@
-#define LED_PIN 2
+#define LED_PIN 11
 #define BRIGHTNESS  50
 
 int ledHue = 150;

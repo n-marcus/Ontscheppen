@@ -84,11 +84,17 @@ class Solenoid {
     }
 };
 
+//name the pins that MOSFETs are connected to here
+//Arduino with 4 Solenoids pins  {2, 3, 4, 5,}
+//Arduino with 8 Solenoids pins  {2, 3, 4, 5, 16, 17, 18, 19}
+
+int solenoidPins[NUM_SOLENOIDS] = {2, 3, 4, 5};
+//int solenoidPins[NUM_SOLENOIDS] = {2, 3, 4, 5, 16, 17, 18, 19};
+
+
 //create an array of solenoid objects
 Solenoid *solenoids[NUM_SOLENOIDS];
 
-//name the pins that MOSFETs are connected to here
-int solenoidPins[NUM_SOLENOIDS] = {2, 3, 4, 5};
 
 
 void setup() {
@@ -98,10 +104,14 @@ void setup() {
   Serial.println("I am alive!");
 
   setupSolenoids();
+  setupButton();
+  setupLEDs();
 }
 
 
 void loop() {
+
+  updateLEDs();
   //20% chance of going into fast mode
   if (random(100) < 20) {
     fastMode = true;
@@ -161,15 +171,4 @@ void loop() {
   //wait random time
   delay(delayTime);
 
-}
-
-void setupSolenoids() {
-  //this function creates an array of solenoid classes and sets their output pins to the right physical pins based on the solenoidPins array
-  Serial.println("Creating solenoid classes!");
-  for (int i = 0; i < NUM_SOLENOIDS; i ++) {
-    solenoids[i] = new Solenoid();
-    Serial.println("Solenoid " + String(i) + " has " + String(solenoidPins[i]) + " as output pin");
-    pinMode(solenoidPins[i], OUTPUT);
-    solenoids[i]->setPin(solenoidPins[i]);
-  }
 }
