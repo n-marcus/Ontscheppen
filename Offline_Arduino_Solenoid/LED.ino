@@ -4,6 +4,7 @@
 int ledHue = 150;
 
 void setupLEDs() {
+  Serial.println("Setting up LEDS");
   FastLED.addLeds<NEOPIXEL, LED_PIN>(leds, NUM_LEDS);
   FastLED.setBrightness(BRIGHTNESS );
 }

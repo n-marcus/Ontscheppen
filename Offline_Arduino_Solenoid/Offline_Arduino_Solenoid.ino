@@ -34,12 +34,12 @@ int maxFastTriggers = 25;
 //how many triggers have we had in fastmode?
 int fastTriggers = 0;
 //how max fast is fast mode? in ms between triggers
-int maxFastTriggerTime = 100;
+int maxFastTriggerTime = 20;
 //how min fast is fast mode in ms between triggers
 int minFastTriggerTime = 10;
 
-int minDelTime = 200;
-int maxDelTime = 2000;
+int minDelTime = 1000;
+int maxDelTime = 7000;
 
 //Solenoid class
 class Solenoid {
@@ -111,9 +111,9 @@ void setup() {
 
 void loop() {
 
-  updateLEDs();
+
   //20% chance of going into fast mode
-  if (random(100) < 20) {
+  if (random(100) < 4) {
     fastMode = true;
     minDelTime = minFastTriggerTime;
     maxDelTime = maxFastTriggerTime;
@@ -124,8 +124,8 @@ void loop() {
   if (fastTriggers > maxFastTriggers) {
     fastMode = false;
     Serial.println("Fast mode is off");
-    minDelTime = 500;
-    maxDelTime = 1000;
+    minDelTime = 1000;
+    maxDelTime = 7000;
     fastTriggers = 0;
   }
 
@@ -135,10 +135,11 @@ void loop() {
 
   //pick a random timing to wait after the trigger
   int delayTime = int(random(minDelTime, maxDelTime));
-  Serial.println("Will wait for " + String(delayTime) + " seconds afterwards");
+  Serial.println("Will wait for " + String(delayTime) + " ms afterwards");
 
   //trigger solenoid for 25 ms
   solenoids[solenoidIndex]->trigger(25);
+  updateLEDs();
   if (fastMode) {
     fastTriggers ++; //count how many fast triggers we've had
   }
@@ -153,22 +154,37 @@ void loop() {
 
 
   //5% chance to get into repeat mode
-  if (random(100) < 5) {
+  if (random(100) < 2) {
+    Serial.println("Repeat mode!");
     for (int i = 0; i < NUM_SOLENOIDS; i ++) {
       int delayTime = random(10, 50);
-      for (int r = 0; r < 40; r ++) {
+      int repeats = int(random(10)) + 10;
+      for (int r = 0; r < repeats; r ++) {
+        Serial.println("Repeat mode triggering solenoid " + String(i));
         solenoids[i]->trigger(delayTime);
+        updateLEDs();
         delay(delayTime + 5);
         solenoids[i]->update();
-        delay(2);
+        updateLEDs();
+        delay(delayTime);
       }
     }
   }
-
+  updateLEDs();
 
 
   cycleCount ++;
   //wait random time
-  delay(delayTime);
+  long startTime = millis();
+  long endTime = startTime + delayTime;
+  Serial.println("Waiting for " + String(delayTime) + "ms...");
+  while (millis() < endTime) {
+
+    updateLEDs();
+    delay(2);
+
+  }
+
+  updateLEDs();
 
 }
