@@ -1,6 +1,8 @@
 #define LED_PIN 11
 #define BRIGHTNESS  50
 
+int eyeLED = 0;
+
 int ledHue = 150;
 
 void setupLEDs() {
@@ -15,11 +17,21 @@ void updateLEDs() {
       int solVel = solenoids[i]->maxOnTime * 2;
       solVel = solVel * solVel;
       solVel = constrain(solVel, 40, 255);
-      Serial.println("lighting LED with vel " + String(solVel));
+//      Serial.println("lighting LED with vel " + String(solVel));
       leds[i] = CHSV(ledHue, solVel, solVel);
+      if (!fastMode) {
+        int eyeToBlink = (NUM_LEDS - 2) + eyeLED;
+//        Serial.println("Blinking eye " + String(eyeLED));
+        leds[eyeToBlink] = CRGB::Blue;
+        eyeLED += 1;
+        eyeLED %= 2;
+      } else {
+        leds[NUM_LEDS - 1] = CRGB::Green;
+        leds[NUM_LEDS - 2] = CRGB::Green;
+      }
     }
   }
 
-  leds.fadeToBlackBy(50);
+  leds.fadeToBlackBy(10);
   FastLED.show();
 }

@@ -39,7 +39,7 @@ int maxFastTriggerTime = 20;
 int minFastTriggerTime = 10;
 
 int minDelTime = 1000;
-int maxDelTime = 7000;
+int maxDelTime = 5000;
 
 //Solenoid class
 class Solenoid {
@@ -125,7 +125,7 @@ void loop() {
     fastMode = false;
     Serial.println("Fast mode is off");
     minDelTime = 1000;
-    maxDelTime = 7000;
+    maxDelTime = 5000;
     fastTriggers = 0;
   }
 
@@ -159,6 +159,7 @@ void loop() {
     for (int i = 0; i < NUM_SOLENOIDS; i ++) {
       int delayTime = random(10, 50);
       int repeats = int(random(10)) + 10;
+      
       for (int r = 0; r < repeats; r ++) {
         Serial.println("Repeat mode triggering solenoid " + String(i));
         solenoids[i]->trigger(delayTime);
@@ -179,7 +180,7 @@ void loop() {
   long endTime = startTime + delayTime;
   Serial.println("Waiting for " + String(delayTime) + "ms...");
   while (millis() < endTime) {
-
+    updateButton();
     updateLEDs();
     delay(2);
 
