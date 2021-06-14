@@ -38,8 +38,15 @@ int maxFastTriggerTime = 20;
 //how min fast is fast mode in ms between triggers
 int minFastTriggerTime = 10;
 
-int minDelTime = 1000;
-int maxDelTime = 5000;
+// spaarzame modus minimale en maximale wachttijd tussen triggers
+int minDelTimeBase = 1000;
+int maxDelTimeBase = 5000;
+
+int minDelTime = minDelTimeBase;
+int maxDelTime = maxDelTimeBase;
+
+//this is the chance that we will go in chance mode 0 = 0% 1000 = 100%, so 1 = 0.1%
+int percentageFastMode = 2;
 
 //Solenoid class
 class Solenoid {
@@ -111,9 +118,8 @@ void setup() {
 
 void loop() {
 
-
   //20% chance of going into fast mode
-  if (random(100) < 4) {
+  if (random(1000) < percentageFastMode) {
     fastMode = true;
     minDelTime = minFastTriggerTime;
     maxDelTime = maxFastTriggerTime;
@@ -124,8 +130,8 @@ void loop() {
   if (fastTriggers > maxFastTriggers) {
     fastMode = false;
     Serial.println("Fast mode is off");
-    minDelTime = 1000;
-    maxDelTime = 5000;
+    minDelTime = minDelTimeBase;
+    maxDelTime = maxDelTimeBase;
     fastTriggers = 0;
   }
 
@@ -154,11 +160,11 @@ void loop() {
 
 
   //5% chance to get into repeat mode
-  if (random(100) < 2) {
+  if (random(1000) < percentageFastMode) {
     Serial.println("Repeat mode!");
     for (int i = 0; i < NUM_SOLENOIDS; i ++) {
       int delayTime = random(10, 50);
-      int repeats = int(random(10)) + 10;
+      int repeats = maxFastTriggers / 4;
       
       for (int r = 0; r < repeats; r ++) {
         Serial.println("Repeat mode triggering solenoid " + String(i));
