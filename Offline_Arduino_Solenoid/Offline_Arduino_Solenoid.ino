@@ -1,4 +1,14 @@
+//DIT KAN JE AANPASSEN GERJAN
+// this is the chance that we will go in fast mode: 0 = 0%, 1000 = 100%, so 1 = 0.1%
+int percentageFastMode = 2;
+//how many triggers will we have in fast mode?
+int maxFastTriggers = 25;
+//spaarzame modus minimale en maximale wachttijd tussen triggers
+int minDelTimeBase = 1000;
+int maxDelTimeBase = 5000;
+
 #include <FastLED.h>
+
 
 //how many solenoids are connected?
 #define NUM_SOLENOIDS 4
@@ -29,24 +39,15 @@ long lastTrigger = 0;
 
 //are we going fast?
 bool fastMode = false;
-//how many triggers will we have in fast mode?
-int maxFastTriggers = 25;
 //how many triggers have we had in fastmode?
 int fastTriggers = 0;
 //how max fast is fast mode? in ms between triggers
-int maxFastTriggerTime = 20;
+int maxFastTriggerTime = 50;
 //how min fast is fast mode in ms between triggers
 int minFastTriggerTime = 10;
 
-// spaarzame modus minimale en maximale wachttijd tussen triggers
-int minDelTimeBase = 1000;
-int maxDelTimeBase = 5000;
-
 int minDelTime = minDelTimeBase;
 int maxDelTime = maxDelTimeBase;
-
-//this is the chance that we will go in chance mode 0 = 0% 1000 = 100%, so 1 = 0.1%
-int percentageFastMode = 2;
 
 //Solenoid class
 class Solenoid {
@@ -118,7 +119,7 @@ void setup() {
 
 void loop() {
 
-  //20% chance of going into fast mode
+  // chance of going into fast mode
   if (random(1000) < percentageFastMode) {
     fastMode = true;
     minDelTime = minFastTriggerTime;
@@ -159,13 +160,13 @@ void loop() {
   updateLEDs();
 
 
-  //5% chance to get into repeat mode
+  //chance to get into repeat mode
   if (random(1000) < percentageFastMode) {
     Serial.println("Repeat mode!");
     for (int i = 0; i < NUM_SOLENOIDS; i ++) {
-      int delayTime = random(10, 50);
-      int repeats = maxFastTriggers / 4;
-      
+      int delayTime = random(minFastTriggerTime, maxFastTriggerTime);
+      int repeats = maxFastTriggers;
+
       for (int r = 0; r < repeats; r ++) {
         Serial.println("Repeat mode triggering solenoid " + String(i));
         solenoids[i]->trigger(delayTime);
@@ -189,7 +190,6 @@ void loop() {
     updateButton();
     updateLEDs();
     delay(2);
-
   }
 
   updateLEDs();
