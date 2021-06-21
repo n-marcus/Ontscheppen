@@ -1,6 +1,7 @@
 //DIT KAN JE AANPASSEN GERJAN
 // this is the chance that we will go in fast mode: 0 = 0%, 1000 = 100%, so 1 = 0.1%
 int percentageFastMode = 2;
+int percentageFastRepeatMode = 2;
 //how many triggers will we have in fast mode?
 int maxFastTriggers = 25;
 //spaarzame modus minimale en maximale wachttijd tussen triggers
@@ -161,7 +162,7 @@ void loop() {
 
 
   //chance to get into repeat mode
-  if (random(1000) < percentageFastMode) {
+  if (random(1000) < percentageFastRepeatMode ) {
     Serial.println("Repeat mode!");
     for (int i = 0; i < NUM_SOLENOIDS; i ++) {
       int delayTime = random(minFastTriggerTime, maxFastTriggerTime);
@@ -179,7 +180,6 @@ void loop() {
     }
   }
   updateLEDs();
-
 
   cycleCount ++;
   //wait random time
